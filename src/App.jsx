@@ -17,25 +17,52 @@ export default function App() {
     setResults([]);
 
     try {
-      // Optional delay (for smoother UX)
       await new Promise((resolve) => setTimeout(resolve, 300));
 
-      const filtered = staticData
-        .map((tab) => {
-          const seen = new Set();
-          const rows = tab.rows.filter((row) => {
-            const value = row[searchColumn]?.toString().toLowerCase();
-            const isMatch = value?.includes(queryKey.toLowerCase());
-            if (isMatch && !seen.has(value)) {
-              seen.add(value);
-              return true;
-            }
-            return false;
-          });
+      let filtered = [];
 
-          return { year: tab.year, rows };
-        })
-        .filter((tab) => tab.rows.length > 0);
+      if (typeof queryKey === "object") {
+        // 🧠 Handle numeric range filter
+        filtered = staticData
+          .map((tab) => ({
+            year: tab.year,
+            rows: tab.rows.filter((row) => {
+              const raw = row[searchColumn];
+              const num = typeof raw === "string" ? parseFloat(raw.replace(/,/g, '')) : raw;
+              return (
+                (!queryKey.min || num >= parseFloat(queryKey.min)) &&
+                (!queryKey.max || num <= parseFloat(queryKey.max))
+              );
+            }),
+          }))
+          .filter((tab) => tab.rows.length > 0);
+      } else {
+        // 🔤 Handle normal text search
+        filtered = staticData
+          .map((tab) => {
+            const seen = new Set();
+            const rows = tab.rows.filter((row) => {
+              const value = row[searchColumn];
+              let isMatch = false;
+              if (searchColumn === "CNo") {
+                // exact match (number or string)
+                isMatch = value.toString() === queryKey.toString();
+              } else {
+                // case-insensitive partial match
+                const str = value?.toString().toLowerCase();
+                isMatch = str?.includes(queryKey.toLowerCase());
+              }
+
+              if (isMatch && !seen.has(value)) {
+                seen.add(value);
+                return true;
+              }
+              return false;
+            });
+            return { year: tab.year, rows };
+          })
+          .filter((tab) => tab.rows.length > 0);
+      }
 
       setResults(filtered);
     } catch (err) {
@@ -45,12 +72,15 @@ export default function App() {
     }
   };
 
-  // ✅ This reflects the actual current state of results
   const hasResults = results.length > 0;
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <SearchBar onSearch={fetchResults} hasResults={hasResults} />
+      <SearchBar
+        onSearch={fetchResults}
+        hasResults={hasResults}
+        staticData={staticData}
+      />
 
       <div className="p-4 max-w-6xl mx-auto">
         {loading && (
