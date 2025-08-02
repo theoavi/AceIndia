@@ -1,0 +1,37 @@
+[1mdiff --git a/README.md b/README.md[m
+[1mindex 110660b..e69de29 100644[m
+[1m--- a/README.md[m
+[1m+++ b/README.md[m
+[36m@@ -1,31 +0,0 @@[m
+[31m-# React & Tailwind CSS Starter Pack[m
+[31m-[m
+[31m-This is a starter pack for creating React projects with Tailwind CSS configured. It uses React version **18.2** and Tailwind CSS version **3.2**.[m
+[31m-[m
+[31m-## Usage[m
+[31m-[m
+[31m-This starter pack includes a basic setup for using **Tailwind CSS with React**. To start building your own components and styles, follow these steps:[m
+[31m-[m
+[31m-1. Clone the repository to your local machine.[m
+[31m-    ```sh[m
+[31m-    git clone https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git[m
+[31m-    ```[m
+[31m-[m
+[31m-1. Install the required packages.[m
+[31m-    ```sh[m
+[31m-    cd react-tailwind-css-starter-pack[m
+[31m-    npm install[m
+[31m-    ```[m
+[31m-[m
+[31m-1. Start the development server.[m
+[31m-    ```sh[m
+[31m-    npm start[m
+[31m-    ```[m
+[31m-1. Open the project in your browser at [`http://localhost:3000`](http://localhost:3000) to view your project.[m
+[31m-1. Create your React components and add your styles using Tailwind classes. You can also create new CSS files and import them into your components.[m
+[31m-[m
+[31m-The project is set up to use `postcss-cli` to process your CSS files. You can add your own `tailwind.config.js` file to customize your Tailwind setup.[m
+[31m-[m
+[31m-## Contributing[m
+[31m-[m
+[31m-Contributions are welcome! If you have any suggestions or find any issues, please feel free to open an issue or a pull request.[m
+\ No newline at end of file[m
